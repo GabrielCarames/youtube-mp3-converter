@@ -3,9 +3,16 @@
 @tailwind utilities;
 
 html,
-body {
+body,
+#__next {
   padding: 0;
   margin: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+#__next {
+  background-color: #fff1d0;
 }
 
 * {
