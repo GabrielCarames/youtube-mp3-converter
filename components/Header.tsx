@@ -9,14 +9,9 @@ export default function Header() {
         <div className="relative flex h-16 items-center justify-between pt-5">
           <div className="flex flex-1 items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="flex justify-center items-center bg-[#086788] rounded-lg w-10">
+              <div className="flex justify-center items-center bg-[#07A0C3] rounded-lg w-10">
                 <div>
-                  <Image
-                    className="h-8 w-auto"
-                    src={logo}
-                    alt="Your asd"
-                    style={{ objectFit: "cover" }}
-                  />
+                  <Image className="h-8 w-auto" src={logo} alt="Logo de Free File Converter" />
                 </div>
               </div>
               <h3>Free File Converter</h3>
