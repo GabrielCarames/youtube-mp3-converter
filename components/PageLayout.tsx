@@ -1,6 +1,5 @@
 import Head from "next/head"
 import Header from "./Header"
-import styles from "../styles/Home.module.css"
 
 export default function PageLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +10,7 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.main}>{children}</main>
+      <main className="h-full">{children}</main>
     </>
   )
 }
