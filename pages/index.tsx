@@ -1,5 +1,5 @@
-import DragAndDrop from "../components/DragAndDrop"
-import PageLayout from "../components/PageLayout"
+import DragAndDrop from "../components/DragAndDrop/DragAndDrop"
+import PageLayout from "../components/PageLayout/PageLayout"
 
 export default function Home() {
   return (

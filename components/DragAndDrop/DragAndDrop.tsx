@@ -1,9 +1,9 @@
 import Image from "next/image"
-import uploadIcon from "../public/upload-icon.svg"
+import uploadIcon from "../../public/upload-icon.svg"
 
 export default function DragAndDrop() {
   return (
-    <div className="w-full max-w-[1000px] h-[500px] bg-[#8D9EFF] rounded-3xl border-dashed border-[#8D72E1] border-4 flex flex-col gap-2 justify-center items-center shadow-2xl">
+    <div className="w-full max-w-[1000px] h-[500px] bg-[#8D9EFF] rounded-3xl border-dashed border-[#8D72E1] border-4 flex flex-col gap-2 justify-center items-center shadow-2xl relative">
       <div className="relative">
         <Image
           className="z-10 relative"
@@ -21,6 +21,11 @@ export default function DragAndDrop() {
       <p className="text-center text-[#EEF1FF] font-bold text-[18px]">
         Sube un archivo desde tu computadora o arrastralo
       </p>
+      <input
+        className="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer z-10"
+        type="file"
+        onChange={e => console.log(e.target.files)}
+      />
     </div>
   )
 }

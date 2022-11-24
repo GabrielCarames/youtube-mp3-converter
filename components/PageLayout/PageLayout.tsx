@@ -1,5 +1,5 @@
 import Head from "next/head"
-import Header from "./Header"
+import Header from "../Header/Header"
 
 export default function PageLayout({ children }: { children: React.ReactNode }) {
   return (
