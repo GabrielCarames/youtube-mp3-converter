@@ -1,5 +1,5 @@
 export const getMp3 = async (videoId: string) => {
-  const url = `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}}`
+  const url = `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}`
   const options = {
     method: "GET",
     headers: {
