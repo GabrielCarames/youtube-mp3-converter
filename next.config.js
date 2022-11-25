@@ -4,6 +4,9 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ["tailwindui.com", "images.unsplash.com"]
+  },
+  env: {
+    API_KEY: process.env.API_KEY
   }
 }
 
