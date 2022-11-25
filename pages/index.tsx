@@ -1,4 +1,4 @@
-import DragAndDrop from "../components/DragAndDrop/DragAndDrop"
+import DragAndDrop from "../components/Converter/Converter"
 import PageLayout from "../components/PageLayout/PageLayout"
 
 export default function Home() {
