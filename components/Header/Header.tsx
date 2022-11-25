@@ -1,5 +1,5 @@
 import Image from "next/image"
-import logo from "../../public/logo.webp"
+import logo from "../../public/logo.png"
 import githubIcon from "../../public/github-icon.png"
 
 export default function Header() {
@@ -8,10 +8,8 @@ export default function Header() {
       <div className="relative flex h-16 items-center justify-center pt-5">
         <div className="w-full max-w-[1200px] flex flex-1 items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex justify-center items-center bg-[#6C4AB6] rounded-lg w-10">
-              <Image className="h-8 w-auto" src={logo} alt="Logo de Free File Converter" />
-            </div>
-            <h3>Free File Converter</h3>
+            <Image className="h-8 w-auto" src={logo} alt="Logo de Free File Converter" />
+            <h3>Youtube MP3 Converter</h3>
           </div>
           <a
             className="flex items-center gap-2"
@@ -27,10 +25,10 @@ export default function Header() {
               height={30}
               style={{
                 filter:
-                  "invert(28%) sepia(88%) saturate(746%) hue-rotate(226deg) brightness(97%) contrast(92%)"
+                  " invert(54%) sepia(49%) saturate(3953%) hue-rotate(319deg) brightness(105%) contrast(101%)"
               }}
             />
-            Repositiorio
+            Repositorio
           </a>
         </div>
       </div>
