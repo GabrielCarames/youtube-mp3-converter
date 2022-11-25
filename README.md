@@ -1,5 +1,5 @@
-# Free file converter 📁
-Convert any file to another format. Made with Next.js and Tailwind.
+# Youtube MP3 Converter 📁
+Convert any YouTube video to MP3 file. Made with Next.js and Tailwind.
 
 > ***Warning:*** This project is still in development.
 
