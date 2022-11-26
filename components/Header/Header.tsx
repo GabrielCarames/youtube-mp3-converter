@@ -8,7 +8,7 @@ export default function Header() {
       <div className="relative flex h-16 items-center justify-center pt-5">
         <div className="w-full max-w-[1200px] flex flex-1 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Image className="h-8 w-auto" src={logo} alt="Logo de Free File Converter" />
+            <Image className="h-10 w-auto" src={logo} alt="Logo de Free File Converter" />
             <h3>Youtube MP3 Converter</h3>
           </div>
           <a
