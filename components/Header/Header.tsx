@@ -4,7 +4,7 @@ import githubIcon from "../../public/github-icon.png"
 
 export default function Header() {
   return (
-    <div className="w-full px-4 absolute top-0 left-0">
+    <header className="w-full px-4 h-[64px]">
       <div className="relative flex h-16 items-center justify-center pt-5">
         <div className="w-full max-w-[1200px] flex flex-1 items-center justify-between">
           <div className="flex items-center gap-2">
@@ -28,10 +28,10 @@ export default function Header() {
                   " invert(54%) sepia(49%) saturate(3953%) hue-rotate(319deg) brightness(105%) contrast(101%)"
               }}
             />
-            Repositorio
+            <span className="sm:hidden">Repositorio</span>
           </a>
         </div>
       </div>
-    </div>
+    </header>
   )
 }
