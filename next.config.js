@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["tailwindui.com", "images.unsplash.com"]
+    domains: ["tailwindui.com", "images.unsplash.com", "img.youtube.com"]
   },
   env: {
     API_KEY: process.env.API_KEY
