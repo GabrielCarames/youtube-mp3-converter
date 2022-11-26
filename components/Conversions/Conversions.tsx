@@ -2,6 +2,7 @@ import Image from "next/image"
 import { conversionProps } from "../../interfaces"
 import { useConversions } from "./useConversions"
 import downloadIcon from "../../public/download-icon.svg"
+import { Oval } from "react-loader-spinner"
 
 export default function Conversions({ conversions }: { conversions: conversionProps[] }) {
   const { formatDuration, getVideoThumbnail } = useConversions()
@@ -18,16 +19,31 @@ export default function Conversions({ conversions }: { conversions: conversionPr
                 key={index}
               >
                 <header className="flex justify-centera items-center gap-5 px-4 box-border">
-                  <Image
-                    className=""
-                    src={getVideoThumbnail(conversion.link)}
-                    alt="Miniatura"
-                    width={60}
-                    height={60}
-                  />
+                  {getVideoThumbnail(conversion.link) ? (
+                    <Image
+                      className=""
+                      src={getVideoThumbnail(conversion.link)}
+                      alt="Miniatura"
+                      width={60}
+                      height={60}
+                    />
+                  ) : (
+                    <Oval
+                      height={40}
+                      width={40}
+                      color="#FF5D73"
+                      wrapperStyle={{}}
+                      wrapperClass="oval-loader"
+                      visible={true}
+                      ariaLabel="oval-loading"
+                      secondaryColor="#7C7A7A"
+                      strokeWidth={2}
+                      strokeWidthSecondary={2}
+                    />
+                  )}
                   <div>
                     <h2 className="font-bold">{conversion.title}</h2>
-                    <p>{formatDuration(conversion.duration)}</p>
+                    <p>Duración: {formatDuration(conversion.duration)}</p>
                   </div>
                 </header>
                 <a
