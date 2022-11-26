@@ -13,6 +13,8 @@ body,
 
 #__next {
   background-color: #fff4f4;
+  min-height: 100%;
+  height: max-content;
 }
 
 * {

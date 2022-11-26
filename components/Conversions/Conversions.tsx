@@ -10,7 +10,7 @@ export default function Conversions({ conversions }: { conversions: conversionPr
     <div className="w-full max-w-[1200px] flex flex-col items-center ">
       <div className="w-full bg-[#7C7A7A] flex flex-col items-center px-4 py-4 box-border rounded-3xl">
         <h1 className="text-[22px] text-white leading-[50px]">Conversiones</h1>
-        <ul className="w-full flex flex-wrap justify-between gap-4">
+        <ul className="w-full flex flex-wrap xl:justify-center justify-between items-center gap-4">
           {conversions.map((conversion, index) => {
             return (
               <li
