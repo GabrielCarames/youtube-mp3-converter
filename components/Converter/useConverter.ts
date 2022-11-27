@@ -23,6 +23,8 @@ export const useConverter = (
       const currentConversions = Object.assign([], conversions) as conversionProps[]
       const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
       if (currentConversions[foundConversionIndex].msg === "in process") {
+        const videoId = getVideoIdFromResponseLink(data.link)
+        data.videoId = videoId
         currentConversions[foundConversionIndex] = data
         setConversions([...currentConversions])
       }
@@ -59,7 +61,6 @@ export const useConverter = (
   const getVideoIdFromResponseLink = (link: string) => link.match(/id=(.*?)&/)![1]
   const checkIfVideoIdIsInConversions = (videoId: string) => {
     const repeatedConversion = conversions.find((item: conversionProps) => item.videoId === videoId)
-    console.log(repeatedConversion)
     return repeatedConversion ? true : false
   }
 
