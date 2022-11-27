@@ -1,15 +1,16 @@
 import Image from "next/image"
 import { conversionProps } from "../../interfaces"
 import { useConversions } from "./useConversions"
-import downloadIcon from "../../public/download-icon.svg"
 import { Oval } from "react-loader-spinner"
+import downloadIcon from "../../public/download-icon.svg"
+import downloadAllIcon from "../../public/download-all-icon.svg"
 
 export default function Conversions({ conversions }: { conversions: conversionProps[] }) {
-  const { formatDuration, getVideoThumbnail } = useConversions()
+  const { formatDuration, getVideoThumbnail, downloadAll } = useConversions()
 
   return (
     <div className="w-full max-w-[1200px] flex flex-col items-center ">
-      <div className="w-full bg-[#7C7A7A] flex flex-col items-center px-4 py-4 box-border rounded-3xl">
+      <div className="w-full bg-[#7C7A7A] flex flex-col items-center gap-4 px-4 py-4 box-border rounded-3xl">
         <h1 className="text-[22px] text-white leading-[50px]">Conversiones</h1>
         <ul className="w-full flex flex-wrap xl:justify-center justify-between items-center gap-4">
           {conversions.map((conversion, index) => {
@@ -47,7 +48,7 @@ export default function Conversions({ conversions }: { conversions: conversionPr
                   </div>
                 </header>
                 <a
-                  className="w-full max-w-[200px] p-5 box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4"
+                  className="w-full max-w-[200px] p-5 box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 conversion"
                   href=""
                   download={conversion.link}
                 >
@@ -67,6 +68,24 @@ export default function Conversions({ conversions }: { conversions: conversionPr
             )
           })}
         </ul>
+        {conversions.length >= 4 ? (
+          <button
+            className="w-full max-w-[200px] p-5 box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 text-white"
+            onClick={() => downloadAll()}
+          >
+            Descargar todo
+            <Image
+              src={downloadAllIcon}
+              alt="Descargar todos los archivos"
+              width={20}
+              height={20}
+              style={{
+                filter:
+                  " invert(99%) sepia(1%) saturate(0%) hue-rotate(32deg) brightness(114%) contrast(100%)"
+              }}
+            />
+          </button>
+        ) : null}
       </div>
     </div>
   )

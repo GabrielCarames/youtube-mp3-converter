@@ -9,5 +9,12 @@ export const useConversions = () => {
     } else return ""
   }
 
-  return { formatDuration, getVideoThumbnail }
+  const downloadAll = () => {
+    const conversions = document.querySelectorAll(".conversion")
+    conversions.forEach((conversion: any) => {
+      conversion.click()
+    })
+  }
+
+  return { formatDuration, getVideoThumbnail, downloadAll }
 }
