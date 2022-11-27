@@ -13,7 +13,7 @@ export default function Header() {
           </div>
           <a
             className="flex items-center gap-2"
-            href="https://github.com/GabrielCarames/free-file-converter"
+            href="https://github.com/GabrielCarames/youtube-mp3-converter"
             target="_blank"
             rel="noreferrer"
           >
