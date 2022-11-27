@@ -5,12 +5,18 @@ import { useConverter } from "./useConverter"
 
 export default function Converter({
   conversions,
-  setConversions
+  setConversions,
+  inputRef
 }: {
   conversions: conversionProps[]
   setConversions: Dispatch<SetStateAction<conversionProps[]>>
+  inputRef: React.MutableRefObject<HTMLInputElement | null>
 }) {
-  const { convertUrl, showModal, setShowModal } = useConverter(conversions, setConversions)
+  const { convertUrl, showModal, setShowModal } = useConverter(
+    conversions,
+    setConversions,
+    inputRef
+  )
 
   return (
     <div className="w-full max-w-[1000px] h-[300px] bg-[#494949] p-10 box-border rounded-3xl border-dashed border-[#7C7A7A] border-4 flex flex-col gap-2 justify-center items-center shadow-2xl relative">
@@ -26,6 +32,7 @@ export default function Converter({
           type="text"
           placeholder="Ejemplo: https://www.youtube.com/watch?v=zBZgdTb-dns"
           required
+          ref={inputRef as React.MutableRefObject<HTMLInputElement>}
         />
         <button
           type="submit"

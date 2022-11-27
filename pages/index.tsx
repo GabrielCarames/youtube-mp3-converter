@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Conversions from "../components/Conversions/Conversions"
 import Converter from "../components/Converter/Converter"
 import PageLayout from "../components/PageLayout/PageLayout"
@@ -6,6 +6,7 @@ import { conversionProps } from "../interfaces"
 
 export default function Home() {
   const [conversions, setConversions] = useState<conversionProps[]>([])
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   return (
     <PageLayout>
@@ -17,9 +18,15 @@ export default function Home() {
               Convierte y descarga cualquier video de Youtube a formato MP3
             </p>
           </div>
-          <Converter conversions={conversions} setConversions={setConversions} />
+          <Converter
+            conversions={conversions}
+            setConversions={setConversions}
+            inputRef={inputRef}
+          />
         </div>
-        {conversions.length >= 1 ? <Conversions conversions={conversions} /> : null}
+        {conversions.length >= 1 ? (
+          <Conversions conversions={conversions} inputRef={inputRef} />
+        ) : null}
       </div>
     </PageLayout>
   )

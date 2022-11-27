@@ -4,7 +4,8 @@ import { getMp3 } from "../../pages/api/converter"
 
 export const useConverter = (
   conversions: conversionProps[],
-  setConversions: Dispatch<SetStateAction<conversionProps[]>>
+  setConversions: Dispatch<SetStateAction<conversionProps[]>>,
+  inputRef: React.MutableRefObject<HTMLInputElement | null>
 ) => {
   const [showModal, setShowModal] = useState(false)
 
@@ -16,12 +17,13 @@ export const useConverter = (
     return () => clearTimeout(timeOut)
   }, [conversions])
 
-  const askForFinishedConversion = () => {
+  const askForFinishedConversion = async () => {
     try {
-      // const data = await getMp3(videoId)
-      const data = fakeSecondResponse as conversionProps
+      const videoId = getVideoIdFromInput()
+      const data = await getMp3(videoId)
       const currentConversions = Object.assign([], conversions) as conversionProps[]
       const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
+      console.log(data)
       if (currentConversions[foundConversionIndex].msg === "in process") {
         const videoId = getVideoIdFromResponseLink(data.link)
         data.videoId = videoId
@@ -30,18 +32,17 @@ export const useConverter = (
       }
     } catch (error) {
       console.log(error)
+      //handle error with modal
     }
   }
 
   const convertUrl = async (e: React.FormEvent) => {
     e.preventDefault()
-    const inputValue = ((e.target as HTMLFormElement)[0] as HTMLInputElement).value
-    const videoId = getVideoIdFromUserUrl(inputValue)
+    const videoId = getVideoIdFromInput()
     if (!videoId) return
     if (checkIfVideoIdIsInConversions(videoId)) return setShowModal(true)
     try {
-      // const data = await getMp3(videoId)
-      const data = fakeFirstResponse as conversionProps
+      const data = await getMp3(videoId)
       data.videoId = videoId
       setConversions((conversions: conversionProps[]) => [...conversions, data])
     } catch (error) {
@@ -57,30 +58,16 @@ export const useConverter = (
       (item: conversionProps) => item.title.toLowerCase() === conversionToFind.title.toLowerCase()
     )
 
-  const getVideoIdFromUserUrl = (link: string) => link.split("v=")[1]
+  const getVideoIdFromInput = () => {
+    const inputValue = inputRef.current?.value!
+    const videoId = inputValue.split("v=")[1]
+    return videoId
+  }
   const getVideoIdFromResponseLink = (link: string) => link.match(/id=(.*?)&/)![1]
   const checkIfVideoIdIsInConversions = (videoId: string) => {
     const repeatedConversion = conversions.find((item: conversionProps) => item.videoId === videoId)
     return repeatedConversion ? true : false
   }
 
-  return { convertUrl, showModal, setShowModal }
-}
-
-const fakeFirstResponse = {
-  link: "",
-  title: "Supabase in 100 Seconds",
-  progress: 0,
-  duration: 156.456,
-  status: "processing",
-  msg: "in process"
-}
-
-const fakeSecondResponse = {
-  link: "https://gamma.123tokyo.xyz/dl.php?id=zBZgdTb-dns&u=https%3A%2F%2Fmdelta.123tokyo.xyz%2Fget.php%2F7%2F0a%2FzBZgdTb-dns.mp3&cid=MmEwMTo0Zjg6YzAxMDo5ZmE2OjoxfE5BfERF&h=IwHNzQgSb2ecrxKn8YMfcg&s=1669479450&n=Supabase%20in%20100%20Seconds",
-  title: "Supabase in 100 Seconds",
-  progress: 0,
-  duration: 156.456,
-  status: "ok",
-  msg: "success"
+  return { convertUrl, showModal, setShowModal, inputRef }
 }

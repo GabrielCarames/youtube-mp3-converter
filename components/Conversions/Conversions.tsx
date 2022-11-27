@@ -5,8 +5,14 @@ import { Oval } from "react-loader-spinner"
 import downloadIcon from "../../public/download-icon.svg"
 import downloadAllIcon from "../../public/download-all-icon.svg"
 
-export default function Conversions({ conversions }: { conversions: conversionProps[] }) {
-  const { formatDuration, getVideoThumbnail, downloadAll } = useConversions()
+export default function Conversions({
+  conversions,
+  inputRef
+}: {
+  conversions: conversionProps[]
+  inputRef: React.MutableRefObject<HTMLInputElement | null>
+}) {
+  const { formatDuration, getVideoThumbnail, downloadAll } = useConversions({ inputRef })
 
   return (
     <div className="w-full max-w-[1200px] flex flex-col items-center ">
@@ -20,7 +26,7 @@ export default function Conversions({ conversions }: { conversions: conversionPr
                 key={index}
               >
                 <header className="flex justify-centera items-center gap-5 pr-4 box-border">
-                  {getVideoThumbnail(conversion.link) ? (
+                  {getVideoThumbnail(conversion.link) !== "" ? (
                     <Image
                       className=""
                       src={getVideoThumbnail(conversion.link)}
@@ -47,23 +53,25 @@ export default function Conversions({ conversions }: { conversions: conversionPr
                     <p>Duración: {formatDuration(conversion.duration)}</p>
                   </div>
                 </header>
-                <a
-                  className="w-full max-w-[200px] p-5 box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 conversion"
-                  href=""
-                  download={conversion.link}
-                >
-                  Descargar MP3
-                  <Image
-                    src={downloadIcon}
-                    alt="Descargar MP3"
-                    width={20}
-                    height={20}
-                    style={{
-                      filter:
-                        " invert(99%) sepia(1%) saturate(0%) hue-rotate(32deg) brightness(114%) contrast(100%)"
-                    }}
-                  />
-                </a>
+                {!conversion.link.includes("mdeta") ? (
+                  <a
+                    className="w-full max-w-[200px] p-5 box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 conversion"
+                    href={conversion.link}
+                    download=""
+                  >
+                    Descargar MP3
+                    <Image
+                      src={downloadIcon}
+                      alt="Descargar MP3"
+                      width={20}
+                      height={20}
+                      style={{
+                        filter:
+                          " invert(99%) sepia(1%) saturate(0%) hue-rotate(32deg) brightness(114%) contrast(100%)"
+                      }}
+                    />
+                  </a>
+                ) : null}
               </li>
             )
           })}
