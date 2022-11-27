@@ -11,13 +11,12 @@ export const useConverter = (
       try {
         // const data = await getMp3(videoId)
         const data = fakeSecondResponse
-        const conversionsCopy = Object.assign([], conversions) as conversionProps[]
-        const index = conversions.findIndex(
-          (item: conversionProps) => item.title.toLowerCase() === data.title.toLowerCase()
-        )
-        if (conversionsCopy[index].msg === "in process") {
-          conversionsCopy[index] = data
-          setConversions([...conversionsCopy])
+        const currentConversions = Object.assign([], conversions) as conversionProps[]
+        const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
+        console.log(currentConversions[foundConversionIndex])
+        if (currentConversions[foundConversionIndex].msg === "in process") {
+          currentConversions[foundConversionIndex] = data
+          setConversions([...currentConversions])
         }
       } catch (error) {
         console.log(error)
@@ -40,6 +39,14 @@ export const useConverter = (
       console.log(error)
     }
   }
+
+  const getConversionIndexByTitle = (
+    currentConversions: conversionProps[],
+    conversionToFind: conversionProps
+  ) =>
+    currentConversions.findIndex(
+      (item: conversionProps) => item.title.toLowerCase() === conversionToFind.title.toLowerCase()
+    )
 
   return { convertUrl }
 }

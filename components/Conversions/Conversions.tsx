@@ -18,7 +18,7 @@ export default function Conversions({ conversions }: { conversions: conversionPr
                 className="w-full max-w-[570px] flex flex-wrap justify-center gap-8 bg-[#494949] p-5 px-2 box-border text-white rounded-3xl border-dashed border-[#7C7A7A] border-4"
                 key={index}
               >
-                <header className="flex justify-centera items-center gap-5 px-4 box-border">
+                <header className="flex justify-centera items-center gap-5 pr-4 box-border">
                   {getVideoThumbnail(conversion.link) ? (
                     <Image
                       className=""
