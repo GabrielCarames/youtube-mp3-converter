@@ -5,4 +5,5 @@ export interface conversionProps {
   duration: number
   status: string
   msg: string
+  videoId: string
 }

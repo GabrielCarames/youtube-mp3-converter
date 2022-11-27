@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react"
 import { conversionProps } from "../../interfaces"
+import { getMp3 } from "../../pages/api/converter"
 
 export const useConverter = (
   conversions: conversionProps[],
@@ -8,33 +9,37 @@ export const useConverter = (
   useEffect(() => {
     if (conversions.length <= 0) return
     const timeOut = setTimeout(async () => {
-      try {
-        // const data = await getMp3(videoId)
-        const data = fakeSecondResponse
-        const currentConversions = Object.assign([], conversions) as conversionProps[]
-        const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
-        console.log(currentConversions[foundConversionIndex])
-        if (currentConversions[foundConversionIndex].msg === "in process") {
-          currentConversions[foundConversionIndex] = data
-          setConversions([...currentConversions])
-        }
-      } catch (error) {
-        console.log(error)
-      }
+      askForFinishedConversion()
     }, 4000)
     return () => clearTimeout(timeOut)
-  }, [conversions, setConversions])
+  }, [conversions])
+
+  const askForFinishedConversion = () => {
+    try {
+      // const data = await getMp3(videoId)
+      const data = fakeSecondResponse as conversionProps
+      const currentConversions = Object.assign([], conversions) as conversionProps[]
+      const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
+      if (currentConversions[foundConversionIndex].msg === "in process") {
+        currentConversions[foundConversionIndex] = data
+        setConversions([...currentConversions])
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const convertUrl = async (e: React.FormEvent) => {
     e.preventDefault()
     const inputValue = ((e.target as HTMLFormElement)[0] as HTMLInputElement).value
-    const videoId = inputValue.split("v=")[1]
-    console.log(videoId)
+    const videoId = getVideoIdFromUserUrl(inputValue)
     if (!videoId) return
+    if (checkIfVideoIdIsInConversions(videoId)) return alert("sosp uto")
     try {
       // const data = await getMp3(videoId)
-      const data = fakeFirstResponse
-      setConversions((conversions: any) => [...conversions, data])
+      const data = fakeFirstResponse as conversionProps
+      data.videoId = videoId
+      setConversions((conversions: conversionProps[]) => [...conversions, data])
     } catch (error) {
       console.log(error)
     }
@@ -47,6 +52,13 @@ export const useConverter = (
     currentConversions.findIndex(
       (item: conversionProps) => item.title.toLowerCase() === conversionToFind.title.toLowerCase()
     )
+
+  const getVideoIdFromUserUrl = (link: string) => link.split("v=")[1]
+  const getVideoIdFromResponseLink = (link: string) => link.match(/id=(.*?)&/)![1]
+  const checkIfVideoIdIsInConversions = (videoId: string) => {
+    const repeatedConversion = conversions.find((item: conversionProps) => item.videoId === videoId)
+    return repeatedConversion ? true : false
+  }
 
   return { convertUrl }
 }
