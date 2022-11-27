@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { conversionProps } from "../../interfaces"
 import { getMp3 } from "../../pages/api/converter"
 
@@ -6,6 +6,8 @@ export const useConverter = (
   conversions: conversionProps[],
   setConversions: Dispatch<SetStateAction<conversionProps[]>>
 ) => {
+  const [showModal, setShowModal] = useState(false)
+
   useEffect(() => {
     if (conversions.length <= 0) return
     const timeOut = setTimeout(async () => {
@@ -34,7 +36,7 @@ export const useConverter = (
     const inputValue = ((e.target as HTMLFormElement)[0] as HTMLInputElement).value
     const videoId = getVideoIdFromUserUrl(inputValue)
     if (!videoId) return
-    if (checkIfVideoIdIsInConversions(videoId)) return alert("sosp uto")
+    if (checkIfVideoIdIsInConversions(videoId)) return setShowModal(true)
     try {
       // const data = await getMp3(videoId)
       const data = fakeFirstResponse as conversionProps
@@ -57,10 +59,11 @@ export const useConverter = (
   const getVideoIdFromResponseLink = (link: string) => link.match(/id=(.*?)&/)![1]
   const checkIfVideoIdIsInConversions = (videoId: string) => {
     const repeatedConversion = conversions.find((item: conversionProps) => item.videoId === videoId)
+    console.log(repeatedConversion)
     return repeatedConversion ? true : false
   }
 
-  return { convertUrl }
+  return { convertUrl, showModal, setShowModal }
 }
 
 const fakeFirstResponse = {

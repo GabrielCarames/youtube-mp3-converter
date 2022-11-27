@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { conversionProps } from "../../interfaces"
+import Modal from "../Modal/Modal"
 import { useConverter } from "./useConverter"
 
 export default function Converter({
@@ -9,7 +10,7 @@ export default function Converter({
   conversions: conversionProps[]
   setConversions: Dispatch<SetStateAction<conversionProps[]>>
 }) {
-  const { convertUrl } = useConverter(conversions, setConversions)
+  const { convertUrl, showModal, setShowModal } = useConverter(conversions, setConversions)
 
   return (
     <div className="w-full max-w-[1000px] h-[300px] bg-[#494949] p-10 box-border rounded-3xl border-dashed border-[#7C7A7A] border-4 flex flex-col gap-2 justify-center items-center shadow-2xl relative">
@@ -33,6 +34,7 @@ export default function Converter({
           Convertir
         </button>
       </form>
+      {showModal ? <Modal setShowModal={setShowModal} /> : null}
     </div>
   )
 }
