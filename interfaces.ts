@@ -12,4 +12,5 @@ export interface conversionProps {
 export interface modalDataProps {
   title: string
   description: string
+  state: boolean
 }

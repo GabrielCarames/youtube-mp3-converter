@@ -43,7 +43,7 @@ export default function Converter({
           Convertir
         </button>
       </form>
-      {showModal ? <Modal setShowModal={setShowModal} /> : null}
+      {showModal.state ? <Modal showModal={showModal} setShowModal={setShowModal} /> : null}
     </div>
   )
 }

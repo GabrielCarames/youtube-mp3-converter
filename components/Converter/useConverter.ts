@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react"
-import { conversionProps } from "../../interfaces"
+import { conversionProps, modalDataProps } from "../../interfaces"
 import { getMp3 } from "../../pages/api/converter"
 
 const loadingConversion = {
@@ -19,7 +19,11 @@ export const useConverter = (
   inputRef: React.MutableRefObject<HTMLInputElement | null>,
   setLoader: Dispatch<SetStateAction<boolean>>
 ) => {
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState<modalDataProps>({
+    title: "",
+    description: "",
+    state: false
+  })
 
   const convertUrl = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,7 +32,13 @@ export const useConverter = (
     loadingConversion.videoId = videoId
     setConversions([...conversions, loadingConversion])
     if (!videoId) return
-    if (checkIfVideoIdIsInConversions(videoId)) return setShowModal(true)
+    if (checkIfVideoIdIsInConversions(videoId))
+      return setShowModal({
+        title: "Video repetido",
+        description:
+          "La URL del video que has insertado ya se encuentra en la lista de conversiones.",
+        state: true
+      })
     try {
       const data = await getMp3(videoId)
       data.videoId = videoId
@@ -38,7 +48,12 @@ export const useConverter = (
     } catch (error) {
       setLoader(false)
       console.log(error)
-      //hande error with modal
+      return setShowModal({
+        title: "Error con la conversión",
+        description:
+          "La conversión ha sufrido un error inesperado. Por favor intenta de nuevo más tarde.",
+        state: true
+      })
     }
   }
 

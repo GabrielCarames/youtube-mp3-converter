@@ -1,8 +1,15 @@
 import { Fragment, useRef, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"
+import { modalDataProps } from "../../interfaces"
 
-export default function Modal({ setShowModal }: { setShowModal: (value: boolean) => void }) {
+export default function Modal({
+  showModal,
+  setShowModal
+}: {
+  showModal: modalDataProps
+  setShowModal: (value: modalDataProps) => void
+}) {
   const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null)
 
@@ -20,7 +27,6 @@ export default function Modal({ setShowModal }: { setShowModal: (value: boolean)
         >
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
-
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
@@ -43,13 +49,10 @@ export default function Modal({ setShowModal }: { setShowModal: (value: boolean)
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                        Video repetido
+                        {showModal.state && showModal.title}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          La URL del video que has insertado ya se encuentra en la lista de
-                          conversiones.
-                        </p>
+                        <p className="text-sm text-gray-500">{showModal.description}</p>
                       </div>
                     </div>
                   </div>
@@ -60,7 +63,11 @@ export default function Modal({ setShowModal }: { setShowModal: (value: boolean)
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-[#FF5D73] px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-[#B20039] focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={() => {
                       setOpen(false)
-                      setShowModal(false)
+                      setShowModal({
+                        title: "",
+                        description: "",
+                        state: false
+                      })
                     }}
                   >
                     Aceptar
