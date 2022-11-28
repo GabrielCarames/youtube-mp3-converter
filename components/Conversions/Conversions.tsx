@@ -16,10 +16,10 @@ export default function Conversions({ conversions }: { conversions: conversionPr
           {conversions.map((conversion, index) => {
             return (
               <li
-                className="w-full max-w-[570px] flex flex-col items-center justify-center gap-2 bg-[#494949] p-5 px-2 box-border text-white rounded-3xl border-dashed border-[#7C7A7A] border-4"
+                className="w-full max-w-[570px] flex flex-col items-center justify-center gap-2 bg-[#494949] p-5 px-4 box-border text-white rounded-3xl border-dashed border-[#7C7A7A] border-4"
                 key={index}
               >
-                <header className="flex justify-center items-start gap-5 box-border w-full h-max">
+                <header className="flex justify-start items-start gap-5 box-border w-full h-max">
                   {conversion.link !== "" ? (
                     <Image
                       className=""
