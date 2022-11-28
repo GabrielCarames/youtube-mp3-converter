@@ -8,3 +8,8 @@ export interface conversionProps {
   videoId: string
   loading?: boolean
 }
+
+export interface modalDataProps {
+  title: string
+  description: string
+}
