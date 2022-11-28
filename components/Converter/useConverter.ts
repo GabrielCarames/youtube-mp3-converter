@@ -21,24 +21,6 @@ export const useConverter = (
 ) => {
   const [showModal, setShowModal] = useState(false)
 
-  const askForFinishedConversion = async (
-    videoId: string,
-    currentConversions: conversionProps[]
-  ) => {
-    try {
-      const data = await getMp3(videoId)
-      const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
-      if (currentConversions[foundConversionIndex].msg === "in process") {
-        data.videoId = videoId
-        currentConversions[foundConversionIndex] = data
-        setConversions([...currentConversions])
-      }
-    } catch (error) {
-      console.log(error)
-      //handle error with modal
-    }
-  }
-
   const convertUrl = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoader(true)
@@ -59,14 +41,6 @@ export const useConverter = (
       //hande error with modal
     }
   }
-
-  const getConversionIndexByTitle = (
-    currentConversions: conversionProps[],
-    conversionToFind: conversionProps
-  ) =>
-    currentConversions.findIndex(
-      (item: conversionProps) => item.title.toLowerCase() === conversionToFind.title.toLowerCase()
-    )
 
   const getVideoIdFromInput = () => {
     const inputValue = inputRef.current?.value!
