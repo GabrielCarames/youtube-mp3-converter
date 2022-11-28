@@ -1,11 +1,13 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import Conversions from "../components/Conversions/Conversions"
 import PageLayout from "../components/PageLayout/PageLayout"
 import Converter from "../components/Converter/Converter"
 import { conversionProps } from "../interfaces"
+import { Oval } from "react-loader-spinner"
 
 export default function Home() {
   const [conversions, setConversions] = useState<conversionProps[]>([])
+  const [loader, setLoader] = useState(false)
 
   return (
     <PageLayout>
@@ -17,9 +19,28 @@ export default function Home() {
               Convierte y descarga cualquier video de Youtube a formato MP3
             </p>
           </div>
-          <Converter conversions={conversions} setConversions={setConversions} />
+          <Converter
+            conversions={conversions}
+            setConversions={setConversions}
+            setLoader={setLoader}
+          />
         </div>
-        {conversions.length >= 1 ? <Conversions conversions={conversions} /> : null}
+        {conversions.length >= 1 ? (
+          <Conversions conversions={conversions} />
+        ) : loader ? (
+          <Oval
+            height={100}
+            width={100}
+            color="#FF5D73"
+            wrapperStyle={{}}
+            wrapperClass="mt-10"
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#7C7A7A"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        ) : null}
       </div>
     </PageLayout>
   )

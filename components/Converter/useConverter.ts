@@ -5,7 +5,8 @@ import { getMp3 } from "../../pages/api/converter"
 export const useConverter = (
   conversions: conversionProps[],
   setConversions: Dispatch<SetStateAction<conversionProps[]>>,
-  inputRef: React.MutableRefObject<HTMLInputElement | null>
+  inputRef: React.MutableRefObject<HTMLInputElement | null>,
+  setLoader: Dispatch<SetStateAction<boolean>>
 ) => {
   const [showModal, setShowModal] = useState(false)
 
@@ -37,10 +38,12 @@ export const useConverter = (
       data.videoId = videoId
       const currentConversions = [...conversions, data]
       setConversions(currentConversions)
+      setLoader(false)
       setTimeout(() => {
         askForFinishedConversion(videoId, currentConversions)
       }, 4000)
     } catch (error) {
+      setLoader(false)
       console.log(error)
     }
   }

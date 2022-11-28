@@ -5,16 +5,19 @@ import { useConverter } from "./useConverter"
 
 export default function Converter({
   conversions,
-  setConversions
+  setConversions,
+  setLoader
 }: {
   conversions: conversionProps[]
   setConversions: Dispatch<SetStateAction<conversionProps[]>>
+  setLoader: Dispatch<SetStateAction<boolean>>
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const { convertUrl, showModal, setShowModal } = useConverter(
     conversions,
     setConversions,
-    inputRef
+    inputRef,
+    setLoader
   )
 
   return (
@@ -24,7 +27,10 @@ export default function Converter({
       </p>
       <form
         className="w-full flex flex-col justify-start items-center"
-        onSubmit={(e: React.FormEvent) => convertUrl(e)}
+        onSubmit={(e: React.FormEvent) => {
+          convertUrl(e)
+          setLoader(true)
+        }}
       >
         <input
           className=" w-full h-14 p-8 rounded-xl outline-none"
