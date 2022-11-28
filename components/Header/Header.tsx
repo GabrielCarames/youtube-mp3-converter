@@ -1,6 +1,6 @@
 import Image from "next/image"
-import logo from "../../public/logo.png"
 import githubIcon from "../../public/github-icon.png"
+import logo from "../../public/logo.png"
 
 export default function Header() {
   return (

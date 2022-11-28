@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import Conversions from "../components/Conversions/Conversions"
-import Converter from "../components/Converter/Converter"
 import PageLayout from "../components/PageLayout/PageLayout"
+import Converter from "../components/Converter/Converter"
 import { conversionProps } from "../interfaces"
 
 export default function Home() {
@@ -24,9 +24,7 @@ export default function Home() {
             inputRef={inputRef}
           />
         </div>
-        {conversions.length >= 1 ? (
-          <Conversions conversions={conversions} inputRef={inputRef} />
-        ) : null}
+        {conversions.length >= 1 ? <Conversions conversions={conversions} /> : null}
       </div>
     </PageLayout>
   )

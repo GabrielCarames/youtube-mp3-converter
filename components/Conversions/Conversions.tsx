@@ -2,17 +2,11 @@ import Image from "next/image"
 import { conversionProps } from "../../interfaces"
 import { useConversions } from "./useConversions"
 import { Oval } from "react-loader-spinner"
-import downloadIcon from "../../public/download-icon.svg"
 import downloadAllIcon from "../../public/download-all-icon.svg"
+import downloadIcon from "../../public/download-icon.svg"
 
-export default function Conversions({
-  conversions,
-  inputRef
-}: {
-  conversions: conversionProps[]
-  inputRef: React.MutableRefObject<HTMLInputElement | null>
-}) {
-  const { formatDuration, getVideoThumbnail, downloadAll } = useConversions({ inputRef })
+export default function Conversions({ conversions }: { conversions: conversionProps[] }) {
+  const { formatDuration, downloadAll } = useConversions()
 
   return (
     <div className="w-full max-w-[1200px] flex flex-col items-center ">
@@ -22,17 +16,17 @@ export default function Conversions({
           {conversions.map((conversion, index) => {
             return (
               <li
-                className="w-full max-w-[570px] flex flex-wrap justify-center gap-8 bg-[#494949] p-5 px-2 box-border text-white rounded-3xl border-dashed border-[#7C7A7A] border-4"
+                className="w-full max-w-[570px] flex flex-col items-center justify-center gap-2 bg-[#494949] p-5 px-2 box-border text-white rounded-3xl border-dashed border-[#7C7A7A] border-4"
                 key={index}
               >
-                <header className="flex justify-centera items-center gap-5 pr-4 box-border">
-                  {getVideoThumbnail(conversion.link) !== "" ? (
+                <header className="flex justify-center items-start gap-5 box-border w-full h-max">
+                  {conversion.link !== "" ? (
                     <Image
                       className=""
-                      src={getVideoThumbnail(conversion.link)}
+                      src={`https://img.youtube.com/vi/${conversion.videoId}/0.jpg`}
                       alt="Miniatura"
-                      width={60}
-                      height={60}
+                      width={100}
+                      height={70}
                     />
                   ) : (
                     <Oval
@@ -49,13 +43,15 @@ export default function Conversions({
                     />
                   )}
                   <div>
-                    <h2 className="font-bold">{conversion.title}</h2>
+                    <h3 className="font-bold w-full max-w-[400px] overflow-hidden text-ellipsis max-h-[48px]">
+                      {conversion.title}
+                    </h3>
                     <p>Duración: {formatDuration(conversion.duration)}</p>
                   </div>
                 </header>
                 {!conversion.link.includes("mdeta") ? (
                   <a
-                    className="w-full max-w-[200px] p-5 box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 conversion"
+                    className="w-full max-w-[190px] px-4 h-[50px] box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 conversion"
                     href={conversion.link}
                     download=""
                   >

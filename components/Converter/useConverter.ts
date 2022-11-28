@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
 import { conversionProps } from "../../interfaces"
 import { getMp3 } from "../../pages/api/converter"
 
@@ -9,23 +9,14 @@ export const useConverter = (
 ) => {
   const [showModal, setShowModal] = useState(false)
 
-  useEffect(() => {
-    if (conversions.length <= 0) return
-    const timeOut = setTimeout(async () => {
-      askForFinishedConversion()
-    }, 4000)
-    return () => clearTimeout(timeOut)
-  }, [conversions])
-
-  const askForFinishedConversion = async () => {
+  const askForFinishedConversion = async (
+    videoId: string,
+    currentConversions: conversionProps[]
+  ) => {
     try {
-      const videoId = getVideoIdFromInput()
       const data = await getMp3(videoId)
-      const currentConversions = Object.assign([], conversions) as conversionProps[]
       const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
-      console.log(data)
       if (currentConversions[foundConversionIndex].msg === "in process") {
-        const videoId = getVideoIdFromResponseLink(data.link)
         data.videoId = videoId
         currentConversions[foundConversionIndex] = data
         setConversions([...currentConversions])
@@ -44,7 +35,11 @@ export const useConverter = (
     try {
       const data = await getMp3(videoId)
       data.videoId = videoId
-      setConversions((conversions: conversionProps[]) => [...conversions, data])
+      const currentConversions = [...conversions, data]
+      setConversions(currentConversions)
+      setTimeout(() => {
+        askForFinishedConversion(videoId, currentConversions)
+      }, 4000)
     } catch (error) {
       console.log(error)
     }
@@ -63,11 +58,11 @@ export const useConverter = (
     const videoId = inputValue.split("v=")[1]
     return videoId
   }
-  const getVideoIdFromResponseLink = (link: string) => link.match(/id=(.*?)&/)![1]
+
   const checkIfVideoIdIsInConversions = (videoId: string) => {
     const repeatedConversion = conversions.find((item: conversionProps) => item.videoId === videoId)
     return repeatedConversion ? true : false
   }
 
-  return { convertUrl, showModal, setShowModal, inputRef }
+  return { convertUrl, showModal, setShowModal }
 }
