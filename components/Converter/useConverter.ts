@@ -2,6 +2,17 @@ import React, { Dispatch, SetStateAction, useState } from "react"
 import { conversionProps } from "../../interfaces"
 import { getMp3 } from "../../pages/api/converter"
 
+const loadingConversion = {
+  link: "",
+  title: "",
+  progress: 0,
+  duration: 0,
+  status: "",
+  msg: "",
+  videoId: "",
+  loading: true
+}
+
 export const useConverter = (
   conversions: conversionProps[],
   setConversions: Dispatch<SetStateAction<conversionProps[]>>,
@@ -30,21 +41,22 @@ export const useConverter = (
 
   const convertUrl = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoader(true)
     const videoId = getVideoIdFromInput()
+    loadingConversion.videoId = videoId
+    setConversions([...conversions, loadingConversion])
     if (!videoId) return
     if (checkIfVideoIdIsInConversions(videoId)) return setShowModal(true)
     try {
       const data = await getMp3(videoId)
       data.videoId = videoId
-      const currentConversions = [...conversions, data]
-      setConversions(currentConversions)
+      deleteLoadingConversion()
+      setConversions([...conversions, data])
       setLoader(false)
-      setTimeout(() => {
-        askForFinishedConversion(videoId, currentConversions)
-      }, 4000)
     } catch (error) {
       setLoader(false)
       console.log(error)
+      //hande error with modal
     }
   }
 
@@ -65,6 +77,12 @@ export const useConverter = (
   const checkIfVideoIdIsInConversions = (videoId: string) => {
     const repeatedConversion = conversions.find((item: conversionProps) => item.videoId === videoId)
     return repeatedConversion ? true : false
+  }
+
+  const deleteLoadingConversion = () => {
+    const currentConversions = [...conversions]
+    currentConversions.splice(currentConversions.length - 1, 1)
+    setConversions([...currentConversions])
   }
 
   return { convertUrl, showModal, setShowModal }

@@ -6,4 +6,5 @@ export interface conversionProps {
   status: string
   msg: string
   videoId: string
+  loading?: boolean
 }

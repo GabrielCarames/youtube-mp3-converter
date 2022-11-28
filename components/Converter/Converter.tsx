@@ -27,10 +27,7 @@ export default function Converter({
       </p>
       <form
         className="w-full flex flex-col justify-start items-center"
-        onSubmit={(e: React.FormEvent) => {
-          convertUrl(e)
-          setLoader(true)
-        }}
+        onSubmit={(e: React.FormEvent) => convertUrl(e)}
       >
         <input
           className=" w-full h-14 p-8 rounded-xl outline-none"
