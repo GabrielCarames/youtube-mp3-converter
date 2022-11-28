@@ -27,18 +27,20 @@ export const useConverter = (
 
   const convertUrl = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoader(true)
     const videoId = getVideoIdFromInput()
-    loadingConversion.videoId = videoId
-    setConversions([...conversions, loadingConversion])
     if (!videoId) return
-    if (checkIfVideoIdIsInConversions(videoId))
+    if (checkIfVideoIdIsInConversions(videoId)) {
+      setLoader(false)
       return setShowModal({
         title: "Video repetido",
         description:
           "La URL del video que has insertado ya se encuentra en la lista de conversiones.",
         state: true
       })
+    }
+    setLoader(true)
+    loadingConversion.videoId = videoId
+    setConversions([...conversions, loadingConversion])
     try {
       const data = await getMp3(videoId)
       data.videoId = videoId

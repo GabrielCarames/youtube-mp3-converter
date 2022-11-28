@@ -16,7 +16,7 @@ export default function Conversions({ conversions }: { conversions: conversionPr
           {conversions.map(conversion => {
             return (
               <li
-                className="w-full max-w-[570px] flex flex-col items-center justify-center gap-2 bg-[#494949] p-5 px-4 box-border text-white rounded-3xl border-dashed border-[#7C7A7A] border-4"
+                className="w-full max-w-[570px] h-[181px] flex flex-col items-center justify-center gap-2 bg-[#494949] p-5 px-4 box-border text-white rounded-3xl border-dashed border-[#7C7A7A] border-4"
                 key={conversion.videoId}
               >
                 {conversion.loading ? (
