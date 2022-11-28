@@ -6,7 +6,6 @@ import { conversionProps } from "../interfaces"
 
 export default function Home() {
   const [conversions, setConversions] = useState<conversionProps[]>([])
-  const inputRef = useRef<HTMLInputElement | null>(null)
 
   return (
     <PageLayout>
@@ -18,11 +17,7 @@ export default function Home() {
               Convierte y descarga cualquier video de Youtube a formato MP3
             </p>
           </div>
-          <Converter
-            conversions={conversions}
-            setConversions={setConversions}
-            inputRef={inputRef}
-          />
+          <Converter conversions={conversions} setConversions={setConversions} />
         </div>
         {conversions.length >= 1 ? <Conversions conversions={conversions} /> : null}
       </div>

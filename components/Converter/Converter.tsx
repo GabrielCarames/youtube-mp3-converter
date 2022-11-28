@@ -1,17 +1,16 @@
-import React, { Dispatch, SetStateAction } from "react"
-import { conversionProps } from "../../interfaces"
+import React, { Dispatch, SetStateAction, useRef } from "react"
 import Modal from "../Modal/Modal"
+import { conversionProps } from "../../interfaces"
 import { useConverter } from "./useConverter"
 
 export default function Converter({
   conversions,
-  setConversions,
-  inputRef
+  setConversions
 }: {
   conversions: conversionProps[]
   setConversions: Dispatch<SetStateAction<conversionProps[]>>
-  inputRef: React.MutableRefObject<HTMLInputElement | null>
 }) {
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const { convertUrl, showModal, setShowModal } = useConverter(
     conversions,
     setConversions,
