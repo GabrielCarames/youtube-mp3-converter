@@ -1,5 +1,5 @@
 # Youtube MP3 Converter 📁
-Convert any YouTube video to MP3 file. Made with Next.js and Tailwind.
+Convert any YouTube video to MP3 file. Made with Next.js and Tailwind, and also using the [Youtube MP3 API](https://rapidapi.com/ytjar/api/youtube-mp36).
 
 ![youtube-mp3-converter](https://user-images.githubusercontent.com/49535753/204390729-e01300e3-fd27-46cf-8062-542ae5087b94.png)
 
