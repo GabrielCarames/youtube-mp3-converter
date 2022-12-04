@@ -25,6 +25,26 @@ export const useConverter = (
     state: false
   })
 
+  const askForFinishedConversion = async (
+    currentConversions: conversionProps[],
+    videoId: string
+  ) => {
+    try {
+      const data = await getMp3(videoId)
+
+      const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
+      console.log(foundConversionIndex)
+      if (currentConversions[foundConversionIndex].msg === "in process") {
+        data.videoId = videoId
+        currentConversions[foundConversionIndex] = data
+        setConversions([...currentConversions])
+      }
+    } catch (error) {
+      console.log(error)
+      //handle error with modal
+    }
+  }
+
   const convertUrl = async (e: React.FormEvent) => {
     e.preventDefault()
     const videoId = getVideoIdFromInput()
@@ -43,10 +63,14 @@ export const useConverter = (
     setConversions([...conversions, loadingConversion])
     try {
       const data = await getMp3(videoId)
+      console.log(data)
       data.videoId = videoId
       deleteLoadingConversion()
       setConversions([...conversions, data])
       setLoader(false)
+      setTimeout(() => {
+        askForFinishedConversion([...conversions, data], videoId)
+      }, 4000)
     } catch (error) {
       setLoader(false)
       console.log(error)
@@ -64,6 +88,14 @@ export const useConverter = (
     const videoId = inputValue.split("v=")[1]
     return videoId
   }
+
+  const getConversionIndexByTitle = (
+    currentConversions: conversionProps[],
+    conversionToFind: conversionProps
+  ) =>
+    currentConversions.findIndex(
+      (item: conversionProps) => item.title.toLowerCase() === conversionToFind.title.toLowerCase()
+    )
 
   const checkIfVideoIdIsInConversions = (videoId: string) => {
     const repeatedConversion = conversions.find((item: conversionProps) => item.videoId === videoId)
