@@ -49,23 +49,38 @@ export default function Conversions({ conversions }: { conversions: conversionPr
                         <p>Duración: {formatDuration(conversion.duration)}</p>
                       </div>
                     </header>
-                    <a
-                      className="w-full max-w-[190px] px-4 h-[50px] box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 conversion"
-                      href={conversion.link}
-                      download=""
-                    >
-                      Descargar MP3
-                      <Image
-                        src={downloadIcon}
-                        alt="Descargar MP3"
-                        width={20}
-                        height={20}
-                        style={{
-                          filter:
-                            " invert(99%) sepia(1%) saturate(0%) hue-rotate(32deg) brightness(114%) contrast(100%)"
-                        }}
+                    {conversion.link.length <= 0 ? (
+                      <Oval
+                        height={40}
+                        width={40}
+                        color="#FF5D73"
+                        wrapperStyle={{}}
+                        wrapperClass="oval-loader"
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#7C7A7A"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
                       />
-                    </a>
+                    ) : (
+                      <a
+                        className="w-full max-w-[190px] px-4 h-[50px] box-border rounded-lg bg-[#FF5D73] font-bold flex items-center gap-4 conversion"
+                        href={conversion.link}
+                        download=""
+                      >
+                        Descargar MP3
+                        <Image
+                          src={downloadIcon}
+                          alt="Descargar MP3"
+                          width={20}
+                          height={20}
+                          style={{
+                            filter:
+                              " invert(99%) sepia(1%) saturate(0%) hue-rotate(32deg) brightness(114%) contrast(100%)"
+                          }}
+                        />
+                      </a>
+                    )}
                   </>
                 )}
               </li>
