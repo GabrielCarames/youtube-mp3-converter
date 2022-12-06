@@ -25,24 +25,29 @@ export const useConverter = (
     state: false
   })
 
-  const askForFinishedConversion = async (
-    currentConversions: conversionProps[],
-    videoId: string
-  ) => {
-    try {
-      const data = await getMp3(videoId)
-
-      const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
-      console.log(foundConversionIndex)
-      if (currentConversions[foundConversionIndex].msg === "in process") {
-        data.videoId = videoId
-        currentConversions[foundConversionIndex] = data
-        setConversions([...currentConversions])
+  const askForFinishedConversion = (currentConversions: conversionProps[], videoId: string) => {
+    const interval = setInterval(async () => {
+      try {
+        const data = await getMp3(videoId)
+        if (data.msg === "success") {
+          data.videoId = videoId
+          const foundConversionIndex = getConversionIndexByTitle(currentConversions, data)
+          currentConversions[foundConversionIndex] = data
+          setConversions([...currentConversions])
+          clearInterval(interval)
+          return
+        }
+      } catch (error) {
+        console.log(error)
+        clearInterval(interval)
+        return setShowModal({
+          title: "Error con la conversión",
+          description:
+            "La conversión ha sufrido un error inesperado. Por favor intenta de nuevo más tarde.",
+          state: true
+        })
       }
-    } catch (error) {
-      console.log(error)
-      //handle error with modal
-    }
+    }, 4000)
   }
 
   const convertUrl = async (e: React.FormEvent) => {
@@ -63,14 +68,11 @@ export const useConverter = (
     setConversions([...conversions, loadingConversion])
     try {
       const data = await getMp3(videoId)
-      console.log(data)
       data.videoId = videoId
       deleteLoadingConversion()
       setConversions([...conversions, data])
       setLoader(false)
-      setTimeout(() => {
-        askForFinishedConversion([...conversions, data], videoId)
-      }, 4000)
+      askForFinishedConversion([...conversions, data], videoId)
     } catch (error) {
       setLoader(false)
       console.log(error)
